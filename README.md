@@ -21,7 +21,7 @@ them to enter.
  ```
 
  ### Windows-specific Requirements
- You will need Visual C++ redistributable 2015 from [here](https://www.microsoft.com/en-us/download/details.aspx?id=48145) if you
+ You will need Visual C++ Redistributable 2015 from [here](https://www.microsoft.com/en-us/download/details.aspx?id=48145) if you
  do not already have it.
 
  ## Usage
@@ -38,6 +38,7 @@ optional arguments:
 Copyright 2017 subjectivelyobjective.
 
 "Oldschool Runescape" is Copyright 1999-2017 Jagex Ltd.
+
 The images included in this program is Copyright 2017 Jagex Ltd.
 
 This program is free software: you can redistribute it and/or modify
