@@ -11,10 +11,14 @@ them to enter.
 ## Requirements
  * python3
 
- ### From pypi, install with pip3
+ ### From PyPI
  * opencv-python
  * pyscreenshot
  * pyuserinput
+
+ ```
+ $ pip3 install opencv-python pyscreenshot pyuserinput
+ ```
 
  ### Windows-specific Requirements
  You will need Visual C++ redistributable 2015 from [here](https://www.microsoft.com/en-us/download/details.aspx?id=48145) if you
@@ -47,4 +51,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.  If not, see
+<http://www.gnu.org/licenses/>.
