@@ -26,7 +26,7 @@ from pymouse import PyMouse
 from pymouse import PyMouseEvent
 
 threshold = 0.8
-img_dir = os.path.join(pathlib.Path(__file__).parent, "images")
+img_dir = os.path.join(str(pathlib.Path(__file__).parent), "images")
 templ_switch_box = cv2.imread(os.path.join(img_dir, "switch-box.png"), 0)
 templ_on = cv2.imread(os.path.join(img_dir, "lightbulb-on.png"), 0)
 templ_off = cv2.imread(os.path.join(img_dir, "lightbulb-off.png"), 0)
