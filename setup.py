@@ -17,7 +17,7 @@ from setuptools import setup
 
 setup(
    name='osrs-lightbox-solver',
-   version='1.0',
+   version='0.1.0',
    description='A script to solve Lightbox puzzles in Oldschool Runescape.',
    author='subjectivelyobjective',
    install_requires=['opencv-python', 'pyscreenshot', 'pyuserinput'],
