@@ -31,5 +31,4 @@ def matrix_xor(matrix1, matrix2):
 
 def unit_matrix(size):
     ones = [1 for i in range(0, size)]
-    unit_mat = [ones for i in range(0, size)]
-    return unit_mat
+    return [ones for i in range(0, size)]
