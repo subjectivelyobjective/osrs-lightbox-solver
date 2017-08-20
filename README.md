@@ -10,21 +10,14 @@ them to enter.
 
 ## Requirements
  * python3
+ * (For Windows Users) Visual C++ Redistributable 2015 from [here](https://www.microsoft.com/en-us/download/details.aspx?id=48145).
 
- ### From PyPI
- * opencv-python
- * pyscreenshot
- * pyuserinput
+## Installation
+```
+$ pip3 install --user .
+```
 
- ```
- $ pip3 install opencv-python pyscreenshot pyuserinput
- ```
-
- ### Windows-specific Requirements
- You will need Visual C++ Redistributable 2015 from [here](https://www.microsoft.com/en-us/download/details.aspx?id=48145) if you
- do not already have it.
-
- ## Usage
+## Usage
  ```
 usage: lightbox_solver.py [-h]
 

@@ -1,6 +1,0 @@
-setup.py
-osrs_lightbox_solver.egg-info/PKG-INFO
-osrs_lightbox_solver.egg-info/SOURCES.txt
-osrs_lightbox_solver.egg-info/dependency_links.txt
-osrs_lightbox_solver.egg-info/requires.txt
-osrs_lightbox_solver.egg-info/top_level.txt
