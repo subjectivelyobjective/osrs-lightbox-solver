@@ -9,7 +9,7 @@ information gathered to determine the solution, and gives it to the user for
 them to enter.
 
 ## Requirements
- * python3
+ * Python 3
  * (For Windows Users) Visual C++ Redistributable 2015 from [here](https://www.microsoft.com/en-us/download/details.aspx?id=48145).
 
 ## Installation
@@ -19,12 +19,7 @@ $ pip3 install --user .
 
 ## Usage
  ```
-usage: lightbox_solver.py [-h]
-
-Solves Oldschool Runescape Lightbox puzzles through image recognition.
-
-optional arguments:
-  -h, --help  show this help message and exit
+$ python lightbox_solver.py
 ```
 
 ## Legalese
