@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import base64
 import cv2
 import lightbox
 import math
@@ -26,15 +27,12 @@ from pymouse import PyMouse
 from pymouse import PyMouseEvent
 
 threshold = 0.8
-img_dir = os.path.join(str(pathlib.Path(__file__).parent), "images")
-templ_switch_box = cv2.imread(os.path.join(img_dir, "switch-box.png"), 0)
-templ_on = cv2.imread(os.path.join(img_dir, "lightbulb-on.png"), 0)
-templ_off = cv2.imread(os.path.join(img_dir, "lightbulb-off.png"), 0)
-
 w_sw = 67
 h_sw = 30
 w_gap = 9
 h_gap = 37
+
+templates = None
 
 class ImgRecException(Exception):
     def __init__(self, *args, **kwargs):
@@ -61,10 +59,35 @@ class ImgRecFinishedInterrupt(Exception):
     def __init__(self, *args, **kwargs):
         Exception.__init__(self, *args, **kwargs)
 
+def load_imgs():
+    global templates
+    if templates is None:
+        templates = {
+            "off": None,
+            "on": None,
+            "switch_box": None
+        }
+
+    imgs_loc = os.path.expanduser("~/.lightbox-solver/images")
+    if not os.path.exists(imgs_loc):
+        os.makedirs(imgs_loc)
+
+    emb_imgs = None
+    for templ in templates:
+        templ_loc = os.path.join(imgs_loc, templ + ".png")
+        if not os.path.exists(templ_loc):
+            if emb_imgs is None:
+                import embedded_imgs
+                emb_imgs = embedded_imgs.imgs
+            img_buf = base64.b64decode(emb_imgs[templ])
+            with open(templ_loc, "wb") as out:
+                out.write(img_buf)
+        templates[templ] = cv2.imread(templ_loc, 0)
+
 def find_locs(img_gray_on):
     img_gray_off = img_gray_on.copy()
-    res_on = cv2.matchTemplate(img_gray_on, templ_on, cv2.TM_CCOEFF_NORMED)
-    res_off = cv2.matchTemplate(img_gray_off, templ_off, cv2.TM_CCOEFF_NORMED)
+    res_on = cv2.matchTemplate(img_gray_on, templates["on"], cv2.TM_CCOEFF_NORMED)
+    res_off = cv2.matchTemplate(img_gray_off, templates["off"], cv2.TM_CCOEFF_NORMED)
     loc_on = np.where(res_on >= threshold)
     loc_off = np.where(res_off >= threshold)
     locs = {"on": list(zip(*loc_on[::-1])), "off": list(zip(*loc_off[::-1]))}
@@ -129,7 +152,7 @@ def get_state(lb):
 
 def find_switch_box():
     img_gray = grab_screen_gray()
-    res = cv2.matchTemplate(img_gray, templ_switch_box, cv2.TM_CCOEFF_NORMED)
+    res = cv2.matchTemplate(img_gray, templates["switch_box"], cv2.TM_CCOEFF_NORMED)
     loc = np.where(res >= threshold)
     return list(zip(*loc[::-1]))
 
@@ -145,7 +168,7 @@ def in_switch_space(switch_spaces, pt):
 
 def find_switch_spaces(lb):
     img_gray = grab_screen_gray()
-    res = cv2.matchTemplate(img_gray, templ_switch_box, cv2.TM_CCOEFF_NORMED)
+    res = cv2.matchTemplate(img_gray, templates["switch_box"], cv2.TM_CCOEFF_NORMED)
     locs = np.where(res >= threshold)
     try:
         tl_pt_a = list(zip(*locs[::-1]))[0]
@@ -171,7 +194,7 @@ def find_switch_spaces(lb):
 
 def lb_open():
     img_gray = grab_screen_gray()
-    res = cv2.matchTemplate(img_gray, templ_switch_box, cv2.TM_CCOEFF_NORMED)
+    res = cv2.matchTemplate(img_gray, templates["switch_box"], cv2.TM_CCOEFF_NORMED)
     locs = np.where(res >= threshold)
     return len(locs[0]) == 1
 
@@ -236,6 +259,7 @@ class SwitchStateGetter(PyMouseEvent):
             print("Now click switch " + next_sw + ".")
 
 def rec_states(lb):
+    load_imgs()
     waiting_for_lb = False
     wait_counter = 0
     while not lb_open():
@@ -262,7 +286,7 @@ def rec_states(lb):
         exit(0)
     print("Found Lightbox! I'll now tell you to click the switches.")
     print("Don't click any switch besides the one I last told you to click.")
-    print("If you mess up, close me with Ctrl-C twice and start me again.")
+    print("When you don't need me anymore, close me with Ctrl-C twice.")
     print()
     print("Begin by clicking switch A.")
     swg = SwitchStateGetter(lb, init_state)
