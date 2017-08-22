@@ -26,6 +26,7 @@ from setuptools.command.install import install
 
 manual_install_modules = {
     "cv2": ["cv2", "opencv-python"],
+    "pyscreenshot": ["pyscreenshot", "pyscreenshot"]
     "PIL": ["PIL", "Pillow-4.2.1"],
     "pyHook": ["pyHook", "pyHook-1.5.1"],
     "pywin32": ["win32api", "pywin32-221"]
@@ -45,6 +46,10 @@ class HandleProblematicModules(install):
                 # opencv-python installs with pip just fine, but does not when
                 # simply listed in install_requires
                 pip.main(["install", "--user", "opencv-python"])
+                return
+            if mod == "pyscreenshot":
+                # Same story.
+                pip.main(["install", "--user", "pyscreenshot"])
                 return
             full_name = manual_install_modules[mod][1]
             url = manual_repo + "windows/"
