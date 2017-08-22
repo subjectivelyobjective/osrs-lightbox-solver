@@ -10,6 +10,7 @@ them to enter.
 
 ## Requirements
  * Python 3.6 or newer
+ * Pip 9 or newer
 
 ## Installation
 ```
