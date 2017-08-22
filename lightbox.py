@@ -26,37 +26,36 @@ default_num_switches = 8
 def get_switch_states(lightbox):
     done = False
     while not done:
-        try:
-            states = imgrec.rec_states(lightbox)
-            if states is None:
-                print("Something went wrong and we're not sure why.")
-                print("Let's try again.")
-                print()
-            lightbox.states["initial_state"] = states["initial_state"]
-            lightbox.states["switch_states"] = states["switch_states"]
-            lightbox.states["current_state"] = states["switch_states"]["H"]
-            done = True
-        except imgrec.ImgRecException as ire:
-            print(ire)
+        states = imgrec.rec_states(lightbox)
+        if states is None:
+            print("Something went wrong and we're not sure why.")
             print("Let's try again.")
             print()
-        except imgrec.LatencyException:
-            print(("We detected that you clicked a switch, but we didn't "
-                "detect any change in the lightbulbs."))
+            continue
+        elif issubclass(states.__class__, Exception):
+            if states.__class__ == imgrec.ImgRecException:
+                print("Failed to recognize all of the lightbulbs.")
+            elif states.__class__ == imgrec.LatencyException:
+                print(("We detected that you clicked a switch, but we didn't "
+                    "detect any change in the lightbulbs."))
+            elif states.__class__ == imgrec.LightboxClosedException:
+                print("The lightbox was closed!")
+                print(("If don't need a lightbox solved anymore, close me by "
+                    "pressing Ctrl-C."))
+            elif states.__class__ == imgrec.PrematureSolveException:
+                print("The lightbox is solved!")
+                exit(0)
+            elif states.__class__ == imgrec.UserMistakeException:
+                print(states)
+            else:
+                raise states
             print("You will have to start over again.")
             print()
-        except imgrec.LightboxClosedException:
-            print("The lightbox was closed!")
-            print(("If don't need a lightbox solved anymore, close me by "
-                "pressing Ctrl-C."))
-            print()
-        except imgrec.PrematureSolveException:
-            print("The lightbox is solved!")
-            exit(0)
-        except imgrec.UserMistakeException as ume:
-            print(ume)
-            print("You will have to start over again.")
-            print()
+            continue
+        lightbox.states["initial_state"] = states["initial_state"]
+        lightbox.states["switch_states"] = states["switch_states"]
+        lightbox.states["current_state"] = states["switch_states"]["H"]
+        done = True
 
 def get_switch_behavior(lightbox):
     switch_behavior = {};

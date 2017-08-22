@@ -21,18 +21,20 @@ import numpy as np
 import os
 import pathlib
 import pyscreenshot as pys
+import swg
+import sys
+import threading
 import time
 from operator import itemgetter
-from pymouse import PyMouse
-from pymouse import PyMouseEvent
+from pynput import mouse
+from queue import Queue
 
+templates = None
 threshold = 0.8
 w_sw = 67
 h_sw = 30
 w_gap = 9
 h_gap = 37
-
-templates = None
 
 class ImgRecException(Exception):
     def __init__(self, *args, **kwargs):
@@ -54,7 +56,7 @@ class UserMistakeException(Exception):
     def __init__(self, *args, **kwargs):
         Exception.__init__(self, *args, **kwargs)
 
-# Hackity hack hack.
+# Hackity hack hack for stopping PyUserInput.
 class ImgRecFinishedInterrupt(Exception):
     def __init__(self, *args, **kwargs):
         Exception.__init__(self, *args, **kwargs)
@@ -173,7 +175,7 @@ def find_switch_spaces(lb):
     try:
         tl_pt_a = list(zip(*locs[::-1]))[0]
     except IndexError:
-        raise LightboxClosedException()
+        return -1
     tl_pt_e = (tl_pt_a[0], tl_pt_a[1] + h_gap)
 
     switches = lb.switches
@@ -209,55 +211,6 @@ def switch_state_container(lb, initial_state=None):
         container["switch_states"][switch] = []
     return container
 
-class SwitchStateGetter(PyMouseEvent):
-    def __init__(self, lb, init_state):
-        PyMouseEvent.__init__(self)
-        self.lb = lb
-        self.init_state = init_state
-        self.switch_container = switch_state_container(lb, init_state)
-        self.last_state = init_state
-        self.curr_switch = ""
-        self.completed = False
-
-    def click(self, x, y, button, press):
-        # Ignore mouse activity that isn't the mouse's left button release.
-        if press or button != 1:
-            return
-
-        switch_spaces = find_switch_spaces(self.lb)
-        switch_clicked = in_switch_space(switch_spaces, (x, y))
-        if switch_clicked is None: # Ignore clicks that aren't on a switch.
-            return
-
-        # This is to account for the delay between switch click and lightbulb
-        # change.
-        time.sleep(0.5)
-
-        for switch in self.switch_container["switch_states"]:
-            if self.switch_container["switch_states"][switch] != []:
-                continue
-            self.curr_switch = switch
-            break
-        if self.curr_switch != switch_clicked:
-            raise UserMistakeException("You were supposed to click switch " +
-                self.curr_switch + ", but you clicked switch " +
-                switch_clicked + ".")
-
-        state = get_state(self.lb)
-        if state == self.last_state:
-            raise LatencyException()
-        if state == self.lb.states["solved_state"]:
-            raise PrematureSolveException()
-        self.switch_container["switch_states"][self.curr_switch] = state
-        self.last_state = state
-        if self.curr_switch == self.lb.switches[-1]:
-            self.completed = True
-            raise ImgRecFinishedInterrupt()
-        else:
-            curr_switch_idx = self.lb.switches.index(self.curr_switch)
-            next_sw = self.lb.switches[curr_switch_idx + 1]
-            print("Now click switch " + next_sw + ".")
-
 def rec_states(lb):
     load_imgs()
     waiting_for_lb = False
@@ -274,6 +227,7 @@ def rec_states(lb):
             exit(0)
         time.sleep(1.5)
         print(".", end="")
+        sys.stdout.flush()
         wait_counter += 1
     if waiting_for_lb:
         # We don't need to set it back to False but let's do it anyway.
@@ -289,11 +243,19 @@ def rec_states(lb):
     print("When you don't need me anymore, close me with Ctrl-C twice.")
     print()
     print("Begin by clicking switch A.")
-    swg = SwitchStateGetter(lb, init_state)
+    if sys.platform.startswith("win32"):
+        sw_getter = swg.SwitchStateGetterWin(lb, init_state)
+    else:
+        sw_getter = swg.SwitchStateGetterNix(lb, init_state)
     try:
-        swg.run()
-    except ImgRecFinishedInterrupt:
-        if swg.completed:
-            return swg.switch_container
-        else:
-            return None
+        sw_getter.run()
+    except KeyboardInterrupt:
+        exit(0)
+    except:
+        pass
+    if sw_getter.exception is not None:
+        return sw_getter.exception
+    if sw_getter.completed:
+        return sw_getter.switch_container
+    else:
+        return None
