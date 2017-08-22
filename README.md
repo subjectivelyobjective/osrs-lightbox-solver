@@ -9,7 +9,7 @@ information gathered to determine the solution, and gives it to the user for
 them to enter.
 
 ## Requirements
- * Python 3.6 or higher
+ * Python 3.6 or newer
 
 ## Installation
 ```
