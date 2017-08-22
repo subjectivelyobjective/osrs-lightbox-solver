@@ -95,6 +95,6 @@ setup(
    description="A script to solve Lightbox puzzles in Oldschool Runescape.",
    author="subjectivelyobjective",
    install_requires=["opencv-python", "pynput",  "pyscreenshot",
-        "pyuserinput", "pypiwin32"],
+        "pyuserinput",],
    cmdclass={"install": HandleProblematicModules}
 )
