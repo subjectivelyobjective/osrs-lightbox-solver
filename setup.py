@@ -26,7 +26,7 @@ from setuptools.command.install import install
 
 manual_install_modules = {
     "cv2": ["cv2", "opencv-python"],
-    "pyscreenshot": ["pyscreenshot", "pyscreenshot"]
+    "pyscreenshot": ["pyscreenshot", "pyscreenshot"],
     "PIL": ["PIL", "Pillow-4.2.1"],
     "pyHook": ["pyHook", "pyHook-1.5.1"],
     "pywin32": ["win32api", "pywin32-221"]
