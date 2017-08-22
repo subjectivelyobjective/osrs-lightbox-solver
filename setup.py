@@ -26,10 +26,11 @@ from setuptools.command.install import install
 
 manual_install_modules = {
     "cv2": ["cv2", "opencv-python"],
-    "pyscreenshot": ["pyscreenshot", "pyscreenshot"],
     "PIL": ["PIL", "Pillow-4.2.1"],
     "pyHook": ["pyHook", "pyHook-1.5.1"],
-    "pywin32": ["win32api", "pywin32-221"]
+	"pynput": ["pynput", "pynput"],
+	"pypiwin32": ["win32api", "pypiwin"],
+    "pyscreenshot": ["pyscreenshot", "pyscreenshot"],
 }
 
 manual_repo = ("https://github.com/subjectivelyobjective/wheels/raw/master/"
@@ -46,6 +47,12 @@ class HandleProblematicModules(install):
                 # opencv-python installs with pip just fine, but does not when
                 # simply listed in install_requires
                 pip.main(["install", "--user", "opencv-python"])
+                return
+            if mod == "pynput":
+                pip.main(["install", "--user", "pynput"])
+                return
+            if mod == "pypiwin32":
+                pip.main(["install", "--user", "pypiwin32"])
                 return
             if mod == "pyscreenshot":
                 # Same story.
@@ -88,6 +95,6 @@ setup(
    description="A script to solve Lightbox puzzles in Oldschool Runescape.",
    author="subjectivelyobjective",
    install_requires=["opencv-python", "pynput",  "pyscreenshot",
-        "pyuserinput", "pywin32"],
+        "pyuserinput", "pypiwin32"],
    cmdclass={"install": HandleProblematicModules}
 )
