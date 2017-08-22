@@ -14,13 +14,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import pathlib
 import pip
 import platform
+import shutil
 import subprocess
 import sys
 import urllib.request
-import shutil
 from setuptools import setup
 from setuptools.command.install import install
 
@@ -49,13 +48,13 @@ class HandleProblematicModules(install):
                 pip.main(["install", "--user", "opencv-python"])
                 return
             if mod == "pynput":
+                # Same story...
                 pip.main(["install", "--user", "pynput"])
                 return
             if mod == "pypiwin32":
                 pip.main(["install", "--user", "pypiwin32"])
                 return
             if mod == "pyscreenshot":
-                # Same story.
                 pip.main(["install", "--user", "pyscreenshot"])
                 return
             full_name = manual_install_modules[mod][1]
@@ -86,6 +85,11 @@ class HandleProblematicModules(install):
             proc.wait()
 
     def run(self):
+        if not sys.platform == "win32":
+            # We defer to pip for *nix platforms because it actually works on
+            # them.
+            pip.main(["install", "--user", "."])
+            return
         for mod in manual_install_modules:
             self.install_manually(mod)
 
