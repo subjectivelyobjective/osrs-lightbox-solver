@@ -1,7 +1,7 @@
 osrs-lightbox-solver
 ====================
 
-A Python 3 script to solve the Lightbox puzzle in Oldschool Runescape.
+A Python 3 script that solves the Lightbox puzzle in Oldschool Runescape.
 
 The script prompts the user to click the lightbox's switches alphabetically,
 detects and keeps track of the lightbulb changes, uses the
@@ -9,12 +9,11 @@ information gathered to determine the solution, and gives it to the user for
 them to enter.
 
 ## Requirements
- * Python 3
- * (For Windows Users) Visual C++ Redistributable 2015 from [here](https://www.microsoft.com/en-us/download/details.aspx?id=48145).
+ * Python 3.6 or higher
 
 ## Installation
 ```
-$ pip3 install --user .
+$ python setup.py install
 ```
 
 ## Usage
