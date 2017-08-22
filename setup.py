@@ -88,6 +88,7 @@ class HandleProblematicModules(install):
         if not sys.platform == "win32":
             # We defer to pip for *nix platforms because it actually works on
             # them.
+            print("This can take a while.")
             pip.main(["install", "--user", "."])
             return
         for mod in manual_install_modules:
