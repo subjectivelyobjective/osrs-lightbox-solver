@@ -13,13 +13,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# A complete and utter hackjob to make sure that "python setup.py install"
+# does what it is supposed to do on both Windows and *nix. There has to be
+# a better way to do this...
+
 import os
 import pip
 import platform
-import shutil
 import subprocess
 import sys
-import urllib.request
+import urllib.request as request
 from setuptools import setup
 from setuptools.command.install import install
 
@@ -34,18 +37,13 @@ manual_install_modules = {
 manual_repo = ("https://github.com/subjectivelyobjective/wheels/raw/master/"
     "wheels/")
 
-class HandleProblematicModules(install):
+class HandleModulesInWindows(install):
     def install_manually(self, mod):
         if not sys.platform.startswith("win32"):
             return
         try:
             exec("import " + manual_install_modules[mod][0])
         except ImportError:
-            #if mod == "pyHook":
-            #    # pyHook needs to be installed before pyuserinput or it's
-            #    # going to whine.
-            #    pip.main(["install", "--user", "pyHook"])
-            #    return
             if mod == "cv2":
                 # opencv-python installs with pip just fine, but does not when
                 # simply listed in install_requires
@@ -61,9 +59,6 @@ class HandleProblematicModules(install):
             if mod == "pyscreenshot":
                 pip.main(["install", "--user", "pyscreenshot"])
                 return
-            #if mod == "pyuserinput":
-            #    pip.main(["install", "--user", "pyuserinput"])
-            #    return
             full_name = manual_install_modules[mod][1]
             url = manual_repo + "windows/"
             ver_num = str(sys.version_info[0]) + str(sys.version_info[1])
@@ -80,7 +75,7 @@ class HandleProblematicModules(install):
             dest = os.path.join(dest, whl)
             if not os.path.exists(dest):
                 print("Downloading: " + whl)
-                with urllib.request.urlopen(url) as res, open(dest, "wb") as out:
+                with request.urlopen(url) as res, open(dest, "wb") as out:
                     buf = res.read()
                     out.write(buf)
 
@@ -108,5 +103,5 @@ setup(
    author="subjectivelyobjective",
    install_requires=["opencv-python", "pynput",  "pyscreenshot",
         "pyuserinput",],
-   cmdclass={"install": HandleProblematicModules}
+   cmdclass={"install": HandleModulesInWindows}
 )
