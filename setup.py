@@ -87,7 +87,7 @@ class HandleModulesInWindows(install):
             proc.wait()
 
     def run(self):
-        if sys.platform.startswith("linux")
+        if sys.platform.startswith("linux"):
             cmd = "which scrot"
             proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.DEVNULL,
                 stderr=subprocess.STDOUT)
