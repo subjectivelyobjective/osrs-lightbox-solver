@@ -28,7 +28,9 @@ manual_install_modules = {
     "PIL": ["PIL", "Pillow-4.2.1"],
     "pyHook": ["pyHook", "pyHook-1.5.1"],
 	"pynput": ["pynput", "pynput"],
+    "pywin32": ["pymouse", "pywin32-221"],
 	"pypiwin32": ["win32api", "pypiwin"],
+    "pyuserinput": ["pymouse", "pyuserinput"],
     "pyscreenshot": ["pyscreenshot", "pyscreenshot"],
 }
 
@@ -56,6 +58,9 @@ class HandleProblematicModules(install):
                 return
             if mod == "pyscreenshot":
                 pip.main(["install", "--user", "pyscreenshot"])
+                return
+            if mod == "pyuserinput":
+                pip.main(["install", "--user", "pyuserinput"])
                 return
             full_name = manual_install_modules[mod][1]
             url = manual_repo + "windows/"
