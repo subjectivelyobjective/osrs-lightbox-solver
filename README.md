@@ -16,7 +16,7 @@ them to enter.
  * Open up a Command Prompt (press Win+R, type "cmd", and then Enter).
  * Enter "cd <where ever you extracted the zip file>" (in the above case, "cd C:\Users\Noob\Downloads\osrs-lightbox-solver-master\osrs-lightbox-solver-master").
  * Enter "python setup.py install". You only have to do this once.
- * After it installs, enter "python lightbox_solver.py"
+ * After it installs, enter "python lightbox_solver.py".
  * Click the lightbox switches as the script tells you to, and your lightbox is solved!
  * For future lightboxes, just cd into the same folder as above, and enter the same command, "python lightbox_solver.py".
 
@@ -57,5 +57,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see
-<http://www.gnu.org/licenses/>.
+along with this program.  If not,...
+see <http://www.gnu.org/licenses/>.
