@@ -87,7 +87,15 @@ class HandleModulesInWindows(install):
             proc.wait()
 
     def run(self):
-        if not sys.platform == "win32":
+        if sys.platform.startswith("linux")
+            cmd = "which scrot"
+            proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT)
+            proc.wait()
+            if proc.returncode != 0:
+                print("Did not find scrot! You might have to install it "
+                    "yourself to satisfy pyscreenshot.")
+        if not sys.platform.startswith("win32"):
             # We defer to pip for *nix platforms because it actually works on
             # them.
             print("This can take a while.")

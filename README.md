@@ -38,6 +38,9 @@ $ python lightbox_solver.py
 ```
 
 ## Caveats
+On Linux, you will probably have to install `scrot` with your distribution's
+package manager.
+
 Will not work under Wayland. For now use Xorg.
 
 ## Legalese
