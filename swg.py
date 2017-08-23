@@ -21,6 +21,12 @@ from pymouse import PyMouse
 from pymouse import PyMouseEvent
 from pynput import mouse
 
+if not sys.platform().startswith("win32"):
+    # Work around to make Windows stop importing PyUserInput, which it chokes
+    # on during the installation process.
+    exec("from pymouse import PyMouse")
+    exec("from pymouse import PyMouseEvent")
+
 def win_queueing(win_swg):
     while not win_swg.completed:
         func, args, kwargs = win_swg.queue.get()

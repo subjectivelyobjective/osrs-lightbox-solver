@@ -44,29 +44,29 @@ class HandleProblematicModules(install):
         try:
             exec("import " + manual_install_modules[mod][0])
         except ImportError:
-            if mod == "pyHook":
-                # pyHook needs to be installed before pyuserinput or it's
-                # going to whine.
-                pass
-            else:
-                if mod == "cv2":
-                    # opencv-python installs with pip just fine, but does not when
-                    # simply listed in install_requires
-                    pip.main(["install", "--user", "opencv-python"])
-                    return
-                if mod == "pynput":
-                    # Same story...
-                    pip.main(["install", "--user", "pynput"])
-                    return
-                if mod == "pypiwin32":
-                    pip.main(["install", "--user", "pypiwin32"])
-                    return
-                if mod == "pyscreenshot":
-                    pip.main(["install", "--user", "pyscreenshot"])
-                    return
-                if mod == "pyuserinput":
-                    pip.main(["install", "--user", "pyuserinput"])
-                    return
+            #if mod == "pyHook":
+            #    # pyHook needs to be installed before pyuserinput or it's
+            #    # going to whine.
+            #    pip.main(["install", "--user", "pyHook"])
+            #    return
+            if mod == "cv2":
+                # opencv-python installs with pip just fine, but does not when
+                # simply listed in install_requires
+                pip.main(["install", "--user", "opencv-python"])
+                return
+            if mod == "pynput":
+                # Same story...
+                pip.main(["install", "--user", "pynput"])
+                return
+            if mod == "pypiwin32":
+                pip.main(["install", "--user", "pypiwin32"])
+                return
+            if mod == "pyscreenshot":
+                pip.main(["install", "--user", "pyscreenshot"])
+                return
+            #if mod == "pyuserinput":
+            #    pip.main(["install", "--user", "pyuserinput"])
+            #    return
             full_name = manual_install_modules[mod][1]
             url = manual_repo + "windows/"
             ver_num = str(sys.version_info[0]) + str(sys.version_info[1])
