@@ -22,7 +22,7 @@ from pymouse import PyMouse
 from pymouse import PyMouseEvent
 from pynput import mouse
 
-if not sys.platform().startswith("win32"):
+if not sys.platform.startswith("win32"):
     # Work around to make Windows stop importing PyUserInput, which it chokes
     # on during the installation process.
     exec("from pymouse import PyMouse")
