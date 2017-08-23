@@ -28,9 +28,6 @@ manual_install_modules = {
     "PIL": ["PIL", "Pillow-4.2.1"],
     "pyHook": ["pyHook", "pyHook-1.5.1"],
 	"pynput": ["pynput", "pynput"],
-    "pywin32": ["pymouse", "pywin32-221"],
-	"pypiwin32": ["win32api", "pypiwin"], # To make pyuserinput shut up.
-    "pyuserinput": ["pymouse", "pyuserinput"],
     "pyscreenshot": ["pyscreenshot", "pyscreenshot"],
 }
 
