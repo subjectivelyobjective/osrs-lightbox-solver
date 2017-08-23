@@ -21,7 +21,6 @@ import numpy as np
 import os
 import pathlib
 import pyscreenshot as pys
-import swg
 import sys
 import threading
 import time
@@ -88,8 +87,10 @@ def load_imgs():
 
 def find_locs(img_gray_on):
     img_gray_off = img_gray_on.copy()
-    res_on = cv2.matchTemplate(img_gray_on, templates["on"], cv2.TM_CCOEFF_NORMED)
-    res_off = cv2.matchTemplate(img_gray_off, templates["off"], cv2.TM_CCOEFF_NORMED)
+    res_on = cv2.matchTemplate(img_gray_on, templates["on"],
+        cv2.TM_CCOEFF_NORMED)
+    res_off = cv2.matchTemplate(img_gray_off, templates["off"],
+        cv2.TM_CCOEFF_NORMED)
     loc_on = np.where(res_on >= threshold)
     loc_off = np.where(res_off >= threshold)
     locs = {"on": list(zip(*loc_on[::-1])), "off": list(zip(*loc_off[::-1]))}
@@ -154,7 +155,8 @@ def get_state(lb):
 
 def find_switch_box():
     img_gray = grab_screen_gray()
-    res = cv2.matchTemplate(img_gray, templates["switch_box"], cv2.TM_CCOEFF_NORMED)
+    res = cv2.matchTemplate(img_gray, templates["switch_box"],
+        cv2.TM_CCOEFF_NORMED)
     loc = np.where(res >= threshold)
     return list(zip(*loc[::-1]))
 
@@ -170,7 +172,8 @@ def in_switch_space(switch_spaces, pt):
 
 def find_switch_spaces(lb):
     img_gray = grab_screen_gray()
-    res = cv2.matchTemplate(img_gray, templates["switch_box"], cv2.TM_CCOEFF_NORMED)
+    res = cv2.matchTemplate(img_gray, templates["switch_box"],
+        cv2.TM_CCOEFF_NORMED)
     locs = np.where(res >= threshold)
     try:
         tl_pt_a = list(zip(*locs[::-1]))[0]
@@ -196,7 +199,8 @@ def find_switch_spaces(lb):
 
 def lb_open():
     img_gray = grab_screen_gray()
-    res = cv2.matchTemplate(img_gray, templates["switch_box"], cv2.TM_CCOEFF_NORMED)
+    res = cv2.matchTemplate(img_gray, templates["switch_box"],
+        cv2.TM_CCOEFF_NORMED)
     locs = np.where(res >= threshold)
     return len(locs[0]) == 1
 
@@ -244,9 +248,11 @@ def rec_states(lb):
     print()
     print("Begin by clicking switch A.")
     if sys.platform.startswith("win32"):
-        sw_getter = swg.SwitchStateGetterWin(lb, init_state)
+        import swg_win
+        sw_getter = swg_win.SwitchStateGetterWin(lb, init_state)
     else:
-        sw_getter = swg.SwitchStateGetterNix(lb, init_state)
+        import swg_nix
+        sw_getter = swg_nix.SwitchStateGetterNix(lb, init_state)
     try:
         sw_getter.run()
     except KeyboardInterrupt:
