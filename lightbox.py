@@ -40,8 +40,6 @@ def get_switch_states(lightbox):
                     "detect any change in the lightbulbs."))
             elif states.__class__ == imgrec.LightboxClosedException:
                 print("The lightbox was closed!")
-                print(("If don't need a lightbox solved anymore, close me by "
-                    "pressing Ctrl-C."))
             elif states.__class__ == imgrec.PrematureSolveException:
                 print("The lightbox is solved!")
                 exit(0)

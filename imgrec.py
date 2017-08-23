@@ -244,7 +244,6 @@ def rec_states(lb):
         exit(0)
     print("Found Lightbox! I'll now tell you to click the switches.")
     print("Don't click any switch besides the one I last told you to click.")
-    print("When you don't need me anymore, close me with Ctrl-C twice.")
     print()
     print("Begin by clicking switch A.")
     if sys.platform.startswith("win32"):
