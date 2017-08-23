@@ -22,6 +22,9 @@ $ python setup.py install
 $ python lightbox_solver.py
 ```
 
+## Caveats
+Will not work under Wayland. For now use Xorg.
+
 ## Legalese
 Copyright 2017 subjectivelyobjective.
 
