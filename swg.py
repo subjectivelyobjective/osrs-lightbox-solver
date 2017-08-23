@@ -18,8 +18,6 @@ import sys
 import threading
 import time
 from queue import Queue
-from pymouse import PyMouse
-from pymouse import PyMouseEvent
 from pynput import mouse
 
 if not sys.platform.startswith("win32"):
