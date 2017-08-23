@@ -14,7 +14,8 @@ them to enter.
  * Download [this](https://github.com/subjectivelyobjective/osrs-lightbox-solver/archive/master.zip) to somewhere memorable, let's say "C:\Users\Noob\Downloads".
  * Extract the zip.
  * Open up a Command Prompt (press Win+R, type "cmd", and then Enter).
- * Enter "cd <where ever you extracted the zip file>" (in the above case, "cd C:\Users\Noob\Downloads\osrs-lightbox-solver-master\osrs-lightbox-solver-master").
+ * Enter "cd \<where ever you extracted the zip file\>"
+    * (in the above case, "cd C:\Users\Noob\Downloads\osrs-lightbox-solver-master\osrs-lightbox-solver-master").
  * Enter "python setup.py install". You only have to do this once.
  * After it installs, enter "python lightbox_solver.py".
  * Click the lightbox switches as the script tells you to, and your lightbox is solved!
