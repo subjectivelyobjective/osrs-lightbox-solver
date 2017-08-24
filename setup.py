@@ -37,7 +37,7 @@ manual_install_modules = {
 manual_repo = ("https://github.com/subjectivelyobjective/wheels/raw/master/"
     "wheels/")
 
-class HandleModulesInWindows(install):
+class HandleIrregularities(install):
     def install_manually(self, mod):
         if not sys.platform.startswith("win32"):
             return
@@ -111,5 +111,5 @@ setup(
    author="subjectivelyobjective",
    install_requires=["opencv-python", "pillow", "pynput",  "pyscreenshot",
         "pyuserinput",],
-   cmdclass={"install": HandleModulesInWindows}
+   cmdclass={"install": HandleIrregularities}
 )
