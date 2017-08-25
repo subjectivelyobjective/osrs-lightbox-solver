@@ -239,7 +239,6 @@ def rec_states(lb):
         print()
     init_state = get_state(lb)
     if init_state == lb.states["solved_state"]:
-        # We don't have to do anything because the lighrbox is already solved.
         print("The lightbox is solved!")
         exit(0)
     print("Found Lightbox! I'll now tell you to click the switches.")
