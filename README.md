@@ -37,6 +37,14 @@ $ python setup.py install
 $ python lightbox_solver.py
 ```
 
+## Frequently Asked Questions
+### Will I get banned for using this?!
+No, this script doesn't touch the game itself at all, and doesn't do any
+clicking for you. It snaps pictures of your display into memory to look for
+lightbulbs and the area of the lightbox with the switches; and hooks your
+mouse to check for a change in the lightbox every time the left button is
+clicked.
+
 ## Caveats
 On Linux, you will probably have to install `scrot` with your distribution's
 package manager.
