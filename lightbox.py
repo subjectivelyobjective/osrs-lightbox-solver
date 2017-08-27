@@ -68,11 +68,11 @@ def get_switch_behavior(lightbox):
 # toggle.
 def make_switches(num_switches):
     switches = []
-    START_CHAR = 65   # Start of uppercase ASCII chars, so "A"
-    current_char = START_CHAR
-    for START_CHAR in range(START_CHAR, START_CHAR + num_switches):
-        switches.append(chr(current_char))
-        current_char+=1
+    start_ch = 65   # Start of uppercase ASCII chars, so "A"
+    current_ch = start_ch
+    for start_ch in range(start_ch, start_ch + num_switches):
+        switches.append(chr(current_ch))
+        current_ch+=1
     return switches
 
 def solve(lightbox):
@@ -85,7 +85,8 @@ def solve(lightbox):
     for poss_sol in all_possible_solutions:
         matrix = lightbox.states["current_state"]
         for switch in list(poss_sol):
-            matrix = mathutil.matrix_xor(matrix, lightbox.switch_behavior[switch])
+            matrix = mathutil.matrix_xor(matrix,
+                lightbox.switch_behavior[switch])
         if matrix == lightbox.states["solved_state"]:
             solution = poss_sol # Solved!
             break
