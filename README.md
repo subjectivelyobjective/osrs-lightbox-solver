@@ -11,6 +11,7 @@ them to enter.
 ## Guide For Noobs Who Are Probably on Windows
  * Install Python 3, from [here](https://www.python.org/ftp/python/3.6.2/python-3.6.2-amd64.exe)
  for 64-bit computers, or [here](https://www.python.org/ftp/python/3.6.2/python-3.6.2.exe) for 32-bit computers.
+   * (be sure to check the box on the installer to add Python to PATH when the installer finishes)
  * Download [this](https://github.com/subjectivelyobjective/osrs-lightbox-solver/archive/master.zip) to somewhere memorable, let's say "C:\Users\Noob\Downloads".
  * Extract the zip.
  * Open up a Command Prompt (press Win+R, type "cmd", and then Enter).
